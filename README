@@ -1,0 +1,28 @@
+This is an example of generating a screen scraping using the selenium IDE.
+
+The idea is to carry out a prototypical navigation to all of the pages
+that you are interested in scraping. You can then export this to a python unit test. 
+
+This unittest can then be customized by hand to also do the scraping that you want to do and add parameterization. Unfortunately this customization process will almost always involve modification of thei generated source code by hand since one wishes to intersperse scraping within navigation. This is a slight shame.
+
+The then add code to create a headless selenium using Xvfb (see http://www.alittlemadness.com/2008/03/05/running-selenium-headless/comment-page-1/#comment-366586) which is then used for scraping. 
+
+
+Caveats to this approach:
+  * Although the machine doing the scraping doesn't need be running X is requires firefox, X libraries and full gtk library. This is quite a lot of disk space, quite a lot of memory and quite a lot of installation. This is fine for running scripts on your server, but if you say want to distribute your scrapers over a number of EC2 servers this becomes less fun.
+
+  * This is slow. The start up is slow. More pages are fetched. If you hand roll a scraper you can often cut out a lot of the data (all the images, all the js files, a bunch of intermediate pages, any flash components). You can probably get a similar effect by using firefox profiles and switching off images and flash.
+
+  * This still doesn't work too well with with flash (though there is a flash extension) 
+
+  * I'm still concerned about nasty bugs where the browser slips out of sync with the remote control, even though I haven't seen this happen.
+
+Advantages of this approach:
+
+  * No boring re-writing of http queries which you then get slightly wrong, no having to match headers. Of course it would probably
+ 
+  * No having to pick apart javascript to work out what they are doing.
+
+
+I feel that this approach works fairly well for hacking together scrapers quickly for batch processes (scrapers rather than robots) where they just need to run.
+ 
